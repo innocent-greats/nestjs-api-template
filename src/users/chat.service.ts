@@ -21,7 +21,7 @@ export class ChatService {
     console.log('authenticationService.decodeUserToken user', socket.id)
 
     const authtoken = socket.handshake.headers.cookie;
-    console.log('getUserFromSocket socket.handshake.headers', authtoken)
+    console.log('getUserFromSocket socket.handshake.headers', socket.handshake.headers)
   
     const newUser = await this.authenticationService.decodeUserToken(authtoken);
     console.log('authenticationService.decodeUserToken user', newUser)

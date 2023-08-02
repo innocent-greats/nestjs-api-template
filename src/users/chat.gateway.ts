@@ -40,19 +40,21 @@ export class ChatGateway implements OnGatewayConnection {
 
     if (!connectedUser) {
       // throw new WsException('Invalid credentials.');
-      console.log('Invalid credentials.')
+      // console.log('Invalid credentials.')
     } else {
       const connectUser = {
         socketID: socket.id,
         userID: connectedUser.userID,
         userPhone: connectedUser.phone,
       }
+      console.log('connectUser.', connectUser);
       const userExist = await connectUsers.find(userConnected => {
         if (userConnected.userID == connectedUser.userID) {
           userConnected.socketID = connectUser.socketID
           return true
         }
       })
+
       if (userExist) {
         [connectUser, ...connectUsers.filter(i => i.userID !== connectUser.userID)]
       } else {
@@ -68,16 +70,11 @@ export class ChatGateway implements OnGatewayConnection {
     @MessageBody() messageDTO: MessageDTO,
     @ConnectedSocket() socket: Socket,
   ) {
-    console.log('@SubscribeMessage to send_message called')
-    console.log('@MessageBody() ', messageDTO)
-    console.log('@@SubscribeMessage messageDTO', messageDTO)
-
     const reciever = await connectUsers.find(userConnected => {
       if (userConnected.userPhone == messageDTO.recieverPhone) {
         return userConnected
       }
     })
-    console.log('@reciever socket', reciever)
     const data = {
       "reciever": reciever.socketID,
       "sender": '',
@@ -108,20 +105,39 @@ export class ChatGateway implements OnGatewayConnection {
     @ConnectedSocket() socket: Socket,
   ) {
     console.log('@notifyOnlineStatus', messageDTO)
-
     const sender = await connectUsers.find(userConnected => {
       if (userConnected.userPhone == messageDTO.senderPhone) {
         return userConnected
       }
     })
+    const orders = await this.OrderRepository.find();
     const data = {
       "to": sender.socketID,
       "message": 'you have no request',
-      "serviceRequest": JSON.stringify([]),
+      "serviceRequest": JSON.stringify(orders),
     }
     this.server.sockets.to(sender.socketID).emit('service-requests', JSON.stringify(data))
   }
 
+  @SubscribeMessage('accept-order')
+  async acceptorder(
+    @MessageBody() messageDTO: any,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    console.log('@acceptorder', messageDTO)
+    const vendor = await connectUsers.find(userConnected => {
+      if (userConnected.userID == messageDTO.clientID) {
+        return userConnected
+      }
+    })
+    const order = await this.OrderRepository.findOneBy({orderID: messageDTO.orderID});
+    console.log('@acceptorder order', order.customer)
+
+    const data = {
+      "order": JSON.stringify(order),
+    }
+    this.server.sockets.to(vendor.socketID).emit('order-request-accepted', JSON.stringify(data))
+  }
 
   @SubscribeMessage('get-vendors')
   async getVendors(
@@ -129,6 +145,7 @@ export class ChatGateway implements OnGatewayConnection {
     @ConnectedSocket() socket: Socket,
   ) {
     console.log('@getVendors', messageDTO)
+    // await this.handleConnection(socket)
     let vendors = await this.userRepository.find({ where: { accountType: 'vendor' } })
     vendors.map((user) => {
       let matchingObject = connectUsers.find(userConnected => userConnected.userID === user.userID);
@@ -159,8 +176,8 @@ export class ChatGateway implements OnGatewayConnection {
     @MessageBody() messageDTO: PlaceOrderSocketDTO,
     @ConnectedSocket() socket: Socket,
   ) {
-    console.log('@SubscribeMessag placeOrder ')
-    console.log('@MessageBody() ', messageDTO)
+    // console.log('@SubscribeMessag placeOrder ')
+    // console.log('@MessageBody() ', messageDTO)
     const client = await this.userRepository.findOneBy({userID: messageDTO.clientID})
     const offerItem = await this.OfferItemRepository.findOneBy({vendorID: messageDTO.vendorID})
     const newOrder = {totalAmount: messageDTO.order.totalAmount,
@@ -169,16 +186,20 @@ export class ChatGateway implements OnGatewayConnection {
         const newOrderSchema = this.OrderRepository.create(newOrder);
         const orderItem = await this.OrderRepository.save(newOrderSchema);
         console.log('@placeOrder orderItem', orderItem)
-
+        console.log('vendorID', orderItem.offerItem.vendorID)
         const vendor = await connectUsers.find(userConnected => {
-          if (userConnected.userPhone == messageDTO.vendorID) {
+          if (userConnected.userID == orderItem.offerItem.vendorID) {
+            console.log('@vendor socket', userConnected)
             return userConnected
+          }else{
+            console.log('@vendor socket', userConnected)
+
           }
         })
     console.log('@vendor socket', vendor)
     const data = {
       "clientID": messageDTO.clientID,
-      "order": orderItem,
+      "order":JSON.stringify(orderItem),
     }
 
     this.server.sockets.to(vendor.socketID).emit('receive_order-request', JSON.stringify(data))

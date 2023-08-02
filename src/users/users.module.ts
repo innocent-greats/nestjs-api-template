@@ -11,16 +11,20 @@ import { ChatGateway } from './chat.gateway';
 import { ChatService } from './chat.service';
 import { OrderController } from 'src/order-app/order.controller';
 import { OrderService } from 'src/order-app/order.service';
+import OfferItemController from 'src/order-app/offer-item.controller';
+import OfferItemsService from 'src/order-app/offer-item.service';
+import OfferItemsSearchService from 'src/search/search.service';
+import { SearchModule } from 'src/search/search.module';
 
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-
+    forwardRef(() => SearchModule),
     TypeOrmModule.forFeature([User, Order, OfferItem, OfferItemImage, Message, OTP ]),
   ],
-  providers: [UsersService, ChatService, ChatGateway, OrderService],
-  exports: [UsersService, TypeOrmModule, OrderService],
-  controllers: [UsersController, OrderController],
+  providers: [UsersService, ChatService, ChatGateway, OrderService, OfferItemsService, OfferItemsSearchService ],
+  exports: [UsersService, TypeOrmModule, OrderService, OfferItemsService],
+  controllers: [UsersController, OrderController, OfferItemController],
 })
 export class UsersModule {}

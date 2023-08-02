@@ -123,16 +123,13 @@ export class UsersService {
     }
   
     async getUserByID(userID: string): Promise<User> {
-      console.log('getUserByID userID')
-      console.log(userID)
-
       const user = await this.userRepository.findOne({
         where: { userID: userID },
       });
 
       console.log('getUserByID user')
       console.log(user)
-      return null
+      return user
 
     }
     async findOne(email: string): Promise<User> {

@@ -352,10 +352,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@elastic/elasticsearch@^8.8.1":
-  version "8.8.1"
-  resolved "https://registry.npmjs.org/@elastic/elasticsearch/-/elasticsearch-8.8.1.tgz"
-  integrity sha512-ibArPKHEmak3jao7xts2gROATiwPQo9aOrWWdix5mJcX1gnjm/UeJBVO901ROmaxFVPKxVnjC9Op3gJYkqagjg==
+"@elastic/elasticsearch@^8.9.0":
+  version "8.9.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-8.9.0.tgz#d132021c6c12e4171fe14371609a5c69b535edd4"
+  integrity sha512-UyolnzjOYTRL2966TYS3IoJP4tQbvak/pmYmbP3JdphD53RjkyVDdxMpTBv+2LcNBRrvYPTzxQbpRW/nGSXA9g==
   dependencies:
     "@elastic/transport" "^8.3.2"
     tslib "^2.4.0"
@@ -922,10 +922,10 @@
     path-to-regexp "3.2.0"
     tslib "2.5.3"
 
-"@nestjs/elasticsearch@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.npmjs.org/@nestjs/elasticsearch/-/elasticsearch-9.0.0.tgz"
-  integrity sha512-+NhXg0od/luNuObrCoouO8IGJ5d8esd2LbqOyX4wqM3PtzoVgQC5uDoxHu0ZyWkp/Coj7OiT0osYN9rgctEPbg==
+"@nestjs/elasticsearch@^10.0.1":
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/elasticsearch/-/elasticsearch-10.0.1.tgz#5aed1b699e5b3622c6522cbb7f78a16db549d652"
+  integrity sha512-rYkcuStF7oDbyt5X3h0BAYS3thZQm8vsHUkGot6dkB8dOTsSIsQJ8UYY9j66LhghzsBiewIwUrKkhY5WM2DVqA==
 
 "@nestjs/jwt@^10.0.3":
   version "10.0.3"
@@ -2221,6 +2221,11 @@ cjs-module-lexer@^1.0.0:
   version "1.2.2"
   resolved "https://registry.npmjs.org/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
+
+class-transformer@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/class-transformer/-/class-transformer-0.5.1.tgz"
+  integrity sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==
 
 class-validator@^0.14.0:
   version "0.14.0"

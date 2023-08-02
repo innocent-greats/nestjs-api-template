@@ -27,9 +27,9 @@ export class Order {
     @Column({nullable: true}) 
     updatedStatus: string
     @ManyToOne(() => User, (vendor: User) => vendor.orders)
-    public vendor: User;
+    vendor: User;
     @ManyToOne(() => User, (vendor: User) => vendor.orders)
-    public customer: User;
+    customer: User;
     @ManyToOne(() => OfferItem, (offerItem: OfferItem) => offerItem.orders)
-    public offerItem: OfferItem;
+    offerItem: OfferItem;
 }

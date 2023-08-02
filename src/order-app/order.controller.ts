@@ -24,14 +24,6 @@ getAllAccountOrdersByStatus(@Body() requestToTradeCommodityDTO: any) {
   console.log(requestToTradeCommodityDTO)
   return this.orderService.getAllAccountOrdersByStatus(requestToTradeCommodityDTO);
 }
-@Post('add-new-item')
-addNewOfferItem(@Body() offerItemDTO: OfferItemDTO) {
-return this.orderService.onAddNewItem(offerItemDTO);
-}
 
-@Post('get-account-offer-items')
-getAccountOfferItems(@Body() vendor: any) {
-return this.orderService.getAccountOfferItems(vendor.vendorID);
-}
 
 }
