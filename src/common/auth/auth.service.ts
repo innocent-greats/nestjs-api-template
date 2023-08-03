@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -8,6 +8,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LoginUserDTO, VerifyOTPDTO } from 'src/users/dto/login-user.input';
 import { User } from 'src/users/entities/user.entity';
 import { OTP } from 'src/users/entities/message.entity';
+import { diskStorage } from 'multer';
+import JwtAuthenticationGuard from './jwt-authentication.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import RequestWithUser from 'src/users/dto/requestWithUser.interface';
 
 
 
@@ -23,7 +27,20 @@ export class AuthService {
     private readonly usersService: UsersService,
     private jwtTokenService: JwtService,
   ) { }
-
+  @Post('avatar')
+  @UseGuards(JwtAuthenticationGuard)
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploadedFiles/avatars'
+    })
+  }))
+  // async addAvatar(@Req() request: RequestWithUser, @UploadedFile() file: Express.Multer.File) {
+  //   return this.usersService.addAvatar(request.user.userID, {
+  //     path: file.path,
+  //     filename: file.originalname,
+  //     mimetype: file.mimetype
+  //   });
+  // }
 
   async generateOTP(phone: string): Promise<any> {
     try {

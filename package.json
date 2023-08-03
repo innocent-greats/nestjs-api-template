@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.9.0",
+    "@hapi/joi": "^17.1.1",
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/common": "^9.4.3",
@@ -39,6 +40,7 @@
     "@nestjs/websockets": "^10.1.2",
     "@types/body-parser": "^1.17.0",
     "@types/cookie": "^0.5.1",
+    "@types/uuid": "^9.0.2",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.18.3",
     "bs58": "^5.0.0",
@@ -61,6 +63,7 @@
     "sort-keys-recursive": "^2.1.8",
     "ts-morph": "^16.0.0",
     "typeorm": "^0.3.16",
+    "uuid": "^9.0.0",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

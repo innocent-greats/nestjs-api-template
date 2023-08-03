@@ -2,6 +2,8 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 import { Exclude } from '@nestjs/class-transformer';
 import { OfferItem } from '../../order-app/entities/offer-item.entity';
 import { Order } from 'src/order-app/entities/order.entity';
+import PublicFile from 'src/files/localFile.entity';
+import LocalFile from 'src/files/localFile.entity';
 
 @Entity()
 export class User {
@@ -45,6 +47,17 @@ export class User {
   public OfferItems: OfferItem[];
   @OneToMany(() => OfferItem, (offerItem: OfferItem) => offerItem.vendor)
   public orders: Order[];
+  @JoinColumn({ name: 'avatarId' })
+  @OneToOne(
+    () => LocalFile,
+    {
+      nullable: true
+    }
+  )
+  public avatar?: LocalFile;
+ 
+  @Column({ nullable: true })
+  public avatarId?: string;
 }
 
 

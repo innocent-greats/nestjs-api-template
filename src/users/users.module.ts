@@ -15,16 +15,18 @@ import OfferItemController from 'src/order-app/offer-item.controller';
 import OfferItemsService from 'src/order-app/offer-item.service';
 import OfferItemsSearchService from 'src/search/search.service';
 import { SearchModule } from 'src/search/search.module';
+import LocalFilesService from 'src/files/localFiles.service';
+import LocalFile from 'src/files/localFile.entity';
 
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
     forwardRef(() => SearchModule),
-    TypeOrmModule.forFeature([User, Order, OfferItem, OfferItemImage, Message, OTP ]),
+    TypeOrmModule.forFeature([User, Order, OfferItem, OfferItemImage, Message, OTP, LocalFile ]),
   ],
-  providers: [UsersService, ChatService, ChatGateway, OrderService, OfferItemsService, OfferItemsSearchService ],
-  exports: [UsersService, TypeOrmModule, OrderService, OfferItemsService],
+  providers: [UsersService, ChatService, ChatGateway, OrderService, OfferItemsService, OfferItemsSearchService, LocalFilesService ],
+  exports: [UsersService, TypeOrmModule, OrderService, OfferItemsService, LocalFilesService],
   controllers: [UsersController, OrderController, OfferItemController],
 })
 export class UsersModule {}
